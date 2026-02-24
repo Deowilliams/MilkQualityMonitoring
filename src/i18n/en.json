@@ -1,0 +1,21 @@
+{
+  "select_language": "Select Language",
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "dashboard": "Dashboard",
+  "schemes": "Government Schemes",
+  "alerts": "Alerts",
+  "milk_quality": "Milk Quality",
+  "good": "Good",
+  "medium": "Medium",
+  "poor": "Poor",
+  "logout": "Logout",
+  "scheme_title": "Rashtriya Gokul Mission",
+  "scheme_desc": "Promotes indigenous cattle and dairy productivity.",
+  "visit": "Visit Official Website",
+  "alert_title": "Milk Quality Alert",
+  "alert_desc": "pH level abnormal. Please check immediately."
+
+
+}
