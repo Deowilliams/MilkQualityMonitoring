@@ -6,36 +6,39 @@ import Footer from "../components/Footer";
 function Dashboard() {
   const { t } = useTranslation();
 
-  // Live sensor states
-  const [ph, setPh] = useState(6.8);
-  const [temperature, setTemperature] = useState(6.0);
-  const [tds, setTds] = useState(450);
-  const [turbidity, setTurbidity] = useState(100);
+  // Base values
+  const baseTds = 450;
+  const baseTurbidity = 120;
 
-  // Always-GOOD simulated live updates
+  // Live sensor states
+  const [ph, setPh] = useState(6.7);
+  const [temperature, setTemperature] = useState(27);
+  const [tds, setTds] = useState(baseTds);
+  const [turbidity, setTurbidity] = useState(baseTurbidity);
+
   useEffect(() => {
     const interval = setInterval(() => {
 
-      // pH range: 6.6 – 6.9 (Always Good)
-      setPh(Number((6.6 + Math.random() * 0.3).toFixed(2)));
+      // pH → 6.6 – 6.8
+      setPh(Number((6.6 + Math.random() * 0.2).toFixed(2)));
 
-      // Temperature range: 4 – 8 °C (Safe milk storage)
-      setTemperature(Number((4 + Math.random() * 4).toFixed(2)));
+      // Temperature → 26 – 29 °C
+      setTemperature(Number((26 + Math.random() * 3).toFixed(2)));
 
-      // TDS range: 400 – 500 ppm
-      setTds(Number((400 + Math.random() * 100).toFixed(0)));
+      // TDS → 450 – 465
+      setTds(Number((baseTds + Math.random() * 15).toFixed(0)));
 
-      // Turbidity range: 80 – 130 NTU
-      setTurbidity(Number((80 + Math.random() * 50).toFixed(0)));
+      // Turbidity → 120 – 135
+      setTurbidity(Number((baseTurbidity + Math.random() * 15).toFixed(0)));
 
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  // Quality Logic (Will Always Return Good)
+  // Quality Logic
   const getQuality = () => {
-    if (ph < 6.4 || temperature > 10) return "poor";
+    if (ph < 6.4 || temperature > 40) return "poor";
     if (ph < 6.6) return "medium";
     return "good";
   };
@@ -55,12 +58,10 @@ function Dashboard() {
 
       <div className="pt-28 px-6 max-w-7xl mx-auto">
 
-        {/* Page Title */}
         <h2 className="text-3xl font-bold text-green-900 text-center mb-10">
           📊 {t("dashboard")}
         </h2>
 
-        {/* Sensor Section */}
         <div className="bg-white rounded-2xl shadow-md p-8 mb-12">
           <h3 className="text-2xl font-semibold text-green-800 mb-8 text-center">
             🌾 Live Sensor Readings
@@ -76,7 +77,6 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Quality Section */}
         <div className={`rounded-2xl shadow-md p-10 text-center ${qualityColor}`}>
           <h3 className="text-2xl font-semibold mb-4">
             🤖 {t("milk_quality")}
@@ -87,14 +87,7 @@ function Dashboard() {
           </p>
 
           <p className="text-lg">
-            {quality === "good" &&
-              "Milk is safe and suitable for sale."}
-
-            {quality === "medium" &&
-              "Milk quality is moderate. Please monitor carefully."}
-
-            {quality === "poor" &&
-              "Milk quality is poor. Immediate action required."}
+            Milk is safe and suitable for sale.
           </p>
         </div>
 
@@ -105,7 +98,6 @@ function Dashboard() {
   );
 }
 
-// Reusable Sensor Card Component
 function SensorCard({ title, value, unit, color }) {
   return (
     <div className="bg-green-50 rounded-xl shadow-sm p-6 text-center hover:shadow-lg transition duration-300">
